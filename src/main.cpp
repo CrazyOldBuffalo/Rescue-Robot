@@ -1,14 +1,9 @@
 #include <Arduino.h>
-#include <Servo.h>
-
-Servo rightMotorDir, rightMotorSpd, leftMotorDir, leftMotorSpd;
+#include <Wire.h>
+#include <Zumo32U4.h>
 
 void setup() {
-  Serial.begin(9600);
-  rightMotorDir.attach(15);
-  rightMotorSpd.attach(9);
-  leftMotorDir.attach(16);
-  leftMotorSpd.attach(10);
+
 }
 
 void loop() {
