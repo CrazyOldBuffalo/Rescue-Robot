@@ -6,13 +6,11 @@ class drive
 private:
     Zumo32U4Motors motors;
 public:
-    drive::drive();
-    drive::~drive();
     void turnleft();
+    void turnleft(int16_t leftval, int16_t rightval);
     void turnright();
+    void turnright(int16_t leftval, int16_t rightval);
     void stop();
     void forward();
-    void backward();
+    void backward(); 
 };
-
-
