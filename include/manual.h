@@ -9,4 +9,5 @@ private:
     char packet;
 public:
     void manualMode(drive drive, FrontSensing proxSensors);
+    void sensorScan(FrontSensing proxSensors);
 };

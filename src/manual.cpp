@@ -12,22 +12,25 @@ void manual::manualMode(drive move, FrontSensing proxSensors) {
                 move.forward();
                 delay(500);
                 move.stop();
-                Serial1.println(proxSensors.obstacleFront());
+                sensorScan(proxSensors);
                 break;
             case 'a':
                 move.turnleft();
                 delay(500);
                 move.stop();
+                sensorScan(proxSensors);
                 break;
             case 'd':
                 move.turnright();
                 delay(500);
                 move.stop();
+                sensorScan(proxSensors);
                 break;
             case 's':
                 move.backward();
                 delay(500);
                 move.stop();
+                sensorScan(proxSensors);
                 break;
             case 'x':
                 move.stop();
@@ -35,15 +38,19 @@ void manual::manualMode(drive move, FrontSensing proxSensors) {
                 Serial1.println("Exiting");
                 breaker = true;
                 break;
-            case 'i':
-                move.stop();
-                delay(1000);
-                Serial1.println("Scanning Front");
-                Serial1.println(proxSensors.getMiddleLeftBrightness());
-                Serial1.println(proxSensors.getMiddleRightBrightness());
             default:
                 break;
             }
         }
     }
+}
+
+void manual::sensorScan(FrontSensing proxSensors) {
+    Serial1.println("Checking Sensors for Obstacles");
+    Serial1.println("Front Sensors: ");
+    Serial1.println(proxSensors.obstacleFront());
+    Serial1.println("Left Sensor: ");
+    Serial1.println(proxSensors.obstacleLeft());
+    Serial1.println("Right Sensor: ");
+    Serial1.println(proxSensors.obstacleRight());
 }

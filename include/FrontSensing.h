@@ -14,8 +14,12 @@ public:
     int getLeftBrightness();
     int getRightBrightness();
     bool frontSensorCheck();
+    bool leftSensorCheck();
+    bool rightSensorCheck();
     int getMiddleLeftBrightness();
     int getMiddleRightBrightness();
     void proximityAlert();
     String obstacleFront();
+    String obstacleLeft();
+    String obstacleRight();
 };
