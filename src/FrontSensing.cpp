@@ -5,32 +5,44 @@ FrontSensing::FrontSensing()
     proxSensors.initThreeSensors();
 };
 
-int FrontSensing::getLeft(Zumo32U4ProximitySensors proxSensors)
+int FrontSensing::getLeftBrightness()
 {
-    this->setupScan(proxSensors);
-    return proxSensors.countsLeftWithLeftLeds();
+    proxSensors.read();
+    leftProxSensorValue = proxSensors.countsLeftWithLeftLeds();
+    return leftProxSensorValue;
 };
 
-int FrontSensing::getRight(Zumo32U4ProximitySensors proxSensors)
+int FrontSensing::getRightBrightness()
 {
-    this->setupScan(proxSensors);
-    return proxSensors.countsRightWithRightLeds();
+    proxSensors.read();
+    rightProxSensorValue = proxSensors.countsRightWithRightLeds();
+    return rightProxSensorValue;
 }
 
-int FrontSensing::getMiddleLeft(Zumo32U4ProximitySensors proxSensors)
+int FrontSensing::getMiddleLeftBrightness()
 {
-    this->setupScan(proxSensors);
-    return proxSensors.countsFrontWithLeftLeds();
+    proxSensors.read();
+    middleLeftProxSensorValue = proxSensors.countsFrontWithLeftLeds();
+    return middleLeftProxSensorValue;
 }
 
-int FrontSensing::getMiddleRight(Zumo32U4ProximitySensors proxSensors)
+int FrontSensing::getMiddleRightBrightness()
 {
-    this->setupScan(proxSensors);
-    return proxSensors.countsFrontWithRightLeds();
+    proxSensors.read();
+    middleRightProxSensorValue = proxSensors.countsFrontWithRightLeds();
+    return middleRightProxSensorValue;
 }
 
-void FrontSensing::setupScan(Zumo32U4ProximitySensors proxSensors)
-{
-    proxSensors.lineSensorEmittersOff();
-    proxSensors.pullupsOn();
+bool FrontSensing::frontSensorCheck() {
+    if (getMiddleLeftBrightness() < 6 && getMiddleRightBrightness() < 6) {
+        return true;
+    }
+    return false;
+}
+
+String FrontSensing::obstacleFront() {
+    if(frontSensorCheck()) {
+        return "No Obstacles In Front of Robot";
+    }
+    return "Obstacle in front of Robot - CAUTION";
 }

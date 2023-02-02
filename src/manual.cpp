@@ -1,6 +1,6 @@
 #include "manual.h"
 
-void manual::manualMode(drive move) {
+void manual::manualMode(drive move, FrontSensing proxSensors) {
     while (!breaker)
     {
         if (Serial1.available() > 0)
@@ -12,6 +12,7 @@ void manual::manualMode(drive move) {
                 move.forward();
                 delay(500);
                 move.stop();
+                Serial1.println(proxSensors.obstacleFront());
                 break;
             case 'a':
                 move.turnleft();
@@ -34,6 +35,12 @@ void manual::manualMode(drive move) {
                 Serial1.println("Exiting");
                 breaker = true;
                 break;
+            case 'i':
+                move.stop();
+                delay(1000);
+                Serial1.println("Scanning Front");
+                Serial1.println(proxSensors.getMiddleLeftBrightness());
+                Serial1.println(proxSensors.getMiddleRightBrightness());
             default:
                 break;
             }

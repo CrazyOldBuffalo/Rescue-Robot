@@ -4,10 +4,14 @@
 #include <Servo.h>
 #include "manual.h"
 #include "drive.h"
+#include "FrontSensing.h"
+
 
 drive move;
 Zumo32U4ButtonA buttonA;
 manual man;
+FrontSensing proxSensors = FrontSensing();
+
 char packet;
 bool buttonPressed = false;
 bool breaker = false;
@@ -23,7 +27,7 @@ void setup()
         {
             buttonPressed = true;
             Serial1.println("Entering Manual Mode");
-            man.manualMode(move);
+            man.manualMode(move, proxSensors);
         }
     }
     while (!buttonPressed);
