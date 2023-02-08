@@ -49,4 +49,8 @@ void manual::sensorScan(FrontSensing proxSensors) {
     Serial1.println("Checking Sensors for Obstacles");
     Serial1.println("Front Sensors: ");
     Serial1.println(proxSensors.obstacleFront());
+    Serial1.println("Left Sensors: ");
+    Serial1.println(proxSensors.leftSensorCheck());
+    Serial1.println("Right Sensors: ");
+    Serial1.println(proxSensors.rightSensorCheck());
 }
