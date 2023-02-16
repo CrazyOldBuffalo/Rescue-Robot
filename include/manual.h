@@ -1,5 +1,4 @@
 #pragma once
-#include "drive.h"
 #include "FrontSensing.h"
 
 
@@ -8,6 +7,6 @@ private:
     bool breaker = false;
     char packet;
 public:
-    void manualMode(drive drive, FrontSensing proxSensors);
+    void manualMode(Turn drive, FrontSensing proxSensors);
     void sensorScan(FrontSensing proxSensors);
 };

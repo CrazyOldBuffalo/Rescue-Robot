@@ -1,6 +1,8 @@
 #include "manual.h"
 
-void manual::manualMode(drive move, FrontSensing proxSensors) {
+void manual::manualMode(Turn move, FrontSensing proxSensors) {
+    move.calibrate();
+    delay(1000);
     while (!breaker)
     {
         if (Serial1.available() > 0)
@@ -15,13 +17,13 @@ void manual::manualMode(drive move, FrontSensing proxSensors) {
                 sensorScan(proxSensors);
                 break;
             case 'a':
-                move.turnleft();
+                move.turnleft(15);
                 delay(500);
                 move.stop();
                 sensorScan(proxSensors);
                 break;
             case 'd':
-                move.turnright();
+                move.turnright(15);
                 delay(500);
                 move.stop();
                 sensorScan(proxSensors);
