@@ -2,12 +2,13 @@
 #include <Wire.h>
 #include <Zumo32U4.h>
 #include <Servo.h>
+#include <Zumo32U4IMU.h>
 #include "manual.h"
-#include "drive.h"
+#include "turn.h"
 #include "FrontSensing.h"
 
 
-drive move;
+Turn move;
 Zumo32U4ButtonA buttonA;
 manual man;
 FrontSensing proxSensors = FrontSensing();
@@ -26,7 +27,6 @@ void setup()
         if (buttonA.isPressed())
         {
             buttonPressed = true;
-            Serial1.println("Entering Manual Mode");
             man.manualMode(move, proxSensors);
         }
     }
