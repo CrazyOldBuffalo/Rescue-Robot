@@ -1,6 +1,6 @@
 #pragma once
 #include <Zumo32U4ProximitySensors.h>
-#include "drive.h"
+#include "turn.h"
 
 class FrontSensing
 {
@@ -14,8 +14,12 @@ public:
     int getLeftBrightness();
     int getRightBrightness();
     bool frontSensorCheck();
+    bool leftSensorCheck();
+    bool rightSensorCheck();
     int getMiddleLeftBrightness();
     int getMiddleRightBrightness();
     void proximityAlert();
     String obstacleFront();
+    String obstacleLeft();
+    String obstacleRight();
 };

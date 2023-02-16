@@ -3,6 +3,10 @@
 FrontSensing::FrontSensing()
 {
     proxSensors.initThreeSensors();
+    leftProxSensorValue = 0;
+    rightProxSensorValue = 0;
+    middleLeftProxSensorValue = 0;
+    middleRightProxSensorValue = 0;
 };
 
 int FrontSensing::getLeftBrightness()
@@ -33,8 +37,22 @@ int FrontSensing::getMiddleRightBrightness()
     return middleRightProxSensorValue;
 }
 
+bool FrontSensing::leftSensorCheck() {
+    if (getLeftBrightness() < 6) {
+        return true;
+    }
+    return false;
+}
+
 bool FrontSensing::frontSensorCheck() {
     if (getMiddleLeftBrightness() < 6 && getMiddleRightBrightness() < 6) {
+        return true;
+    }
+    return false;
+}
+
+bool FrontSensing::rightSensorCheck() {
+    if(getRightBrightness() < 6) {
         return true;
     }
     return false;
@@ -45,4 +63,18 @@ String FrontSensing::obstacleFront() {
         return "No Obstacles In Front of Robot";
     }
     return "Obstacle in front of Robot - CAUTION";
+}
+
+String FrontSensing::obstacleLeft() {
+    if (leftSensorCheck()) {
+        return "No Obstacles near Left of Robot";
+    }
+    return "Obstacle Left of Robot - CAUTION";
+}
+
+String FrontSensing::obstacleRight() {
+    if(rightSensorCheck()) {
+        return "No Obstacles near Right of Robot";
+    }
+    return "Obstacle Right of Robot - CAUTION";
 }
