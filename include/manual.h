@@ -3,7 +3,7 @@
 #include "FrontSensing.h"
 
 
-class manual {
+class Manual {
 private:
     bool breaker = false;
     char packet;

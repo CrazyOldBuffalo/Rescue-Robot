@@ -2,7 +2,7 @@
 #include <Wire.h>
 #include <Zumo32U4.h>
 
-class drive
+class Drive
 {
 private:
     Zumo32U4Motors motors;
