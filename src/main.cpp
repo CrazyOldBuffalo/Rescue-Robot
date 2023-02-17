@@ -7,7 +7,6 @@
 #include "turn.h"
 #include "FrontSensing.h"
 
-
 Turn move;
 Zumo32U4ButtonA buttonA;
 manual man;

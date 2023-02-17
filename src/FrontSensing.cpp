@@ -59,22 +59,22 @@ bool FrontSensing::rightSensorCheck() {
 }
 
 String FrontSensing::obstacleFront() {
-    if(frontSensorCheck()) {
-        return "No Obstacles In Front of Robot";
+    if(!frontSensorCheck()) {
+        return "Obstacle in front of Robot - CAUTION";
     }
-    return "Obstacle in front of Robot - CAUTION";
+    return "Clear";
 }
 
 String FrontSensing::obstacleLeft() {
-    if (leftSensorCheck()) {
-        return "No Obstacles near Left of Robot";
+    if (!leftSensorCheck()) {
+        return "Obstacle Left of Robot - CAUTION";
     }
-    return "Obstacle Left of Robot - CAUTION";
+    return "Clear";
 }
 
 String FrontSensing::obstacleRight() {
-    if(rightSensorCheck()) {
-        return "No Obstacles near Right of Robot";
+    if(!rightSensorCheck()) {
+        return "Obstacle Right of Robot - CAUTION";
     }
-    return "Obstacle Right of Robot - CAUTION";
+    return "Clear";
 }
