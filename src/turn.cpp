@@ -29,13 +29,13 @@ void Turn::turnright(int degree) {
 
 void Turn::forward() {
     motors.setSpeeds(motorspeed, motorspeed);
-    delay(1000);
+    delay(500);
     stop();
 }
 
 void Turn::stop() {
     motors.setSpeeds(0,0);
-    delay(1000);
+    delay(50);
 }
 
 void Turn::calibrate() {
@@ -48,6 +48,6 @@ void Turn::calibrate() {
 
 void Turn::backward() {
   motors.setSpeeds(-motorspeed,-motorspeed) ;
-  delay(1000);
+  delay(500);
   stop();
 }

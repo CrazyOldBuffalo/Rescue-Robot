@@ -2,6 +2,7 @@
 
 void manual::manualMode(Turn move, FrontSensing proxSensors) {
     move.calibrate();
+    lineSensor.lineSensorSetup();
     delay(1000);
     while (!breaker)
     {
@@ -12,27 +13,31 @@ void manual::manualMode(Turn move, FrontSensing proxSensors) {
             {
             case 'w':
                 move.forward();
-                delay(500);
+                delay(50);
                 move.stop();
                 sensorScan(proxSensors);
+                lineSensor.lineSensorTest();
                 break;
             case 'a':
                 move.turnleft(15);
-                delay(500);
+                delay(50);
                 move.stop();
                 sensorScan(proxSensors);
+                lineSensor.lineSensorTest();
                 break;
             case 'd':
                 move.turnright(15);
-                delay(500);
+                delay(50);
                 move.stop();
                 sensorScan(proxSensors);
+                lineSensor.lineSensorTest();
                 break;
             case 's':
                 move.backward();
-                delay(500);
+                delay(50);
                 move.stop();
                 sensorScan(proxSensors);
+                lineSensor.lineSensorTest();
                 break;
             case 'x':
                 move.stop();
@@ -48,11 +53,16 @@ void manual::manualMode(Turn move, FrontSensing proxSensors) {
 }
 
 void manual::sensorScan(FrontSensing proxSensors) {
-    Serial1.println("Checking Sensors for Obstacles");
-    Serial1.println("Front Sensors: ");
-    Serial1.println(proxSensors.obstacleFront());
-    Serial1.println("Left Sensors: ");
-    Serial1.println(proxSensors.leftSensorCheck());
-    Serial1.println("Right Sensors: ");
-    Serial1.println(proxSensors.rightSensorCheck());
+    if(proxSensors.frontSensorCheck()) {
+        Serial1.println("Front Sensor:");
+        Serial1.println(proxSensors.obstacleFront());
+    }
+    if(proxSensors.leftSensorCheck()) {
+        Serial1.println("Left Sensor:");
+        Serial1.println(proxSensors.obstacleLeft());
+    }
+    if(proxSensors.rightSensorCheck()) {
+        Serial1.println("Right Sensor:");
+        Serial1.println(proxSensors.obstacleRight());
+    }
 }

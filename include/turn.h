@@ -8,7 +8,7 @@ class Turn
 private:
     Zumo32U4Motors motors;
     int turnspeed = 150;
-    int motorspeed = 250;
+    int motorspeed = 150;
     int angle = 0;
     GyroSensor gyro = GyroSensor();
 public:
