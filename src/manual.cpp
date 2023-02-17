@@ -53,15 +53,15 @@ void manual::manualMode(Turn move, FrontSensing proxSensors) {
 }
 
 void manual::sensorScan(FrontSensing proxSensors) {
-    if(proxSensors.frontSensorCheck()) {
+    if(!proxSensors.frontSensorCheck()) {
         Serial1.println("Front Sensor:");
         Serial1.println(proxSensors.obstacleFront());
     }
-    if(proxSensors.leftSensorCheck()) {
+    if(!proxSensors.leftSensorCheck()) {
         Serial1.println("Left Sensor:");
         Serial1.println(proxSensors.obstacleLeft());
     }
-    if(proxSensors.rightSensorCheck()) {
+    if(!proxSensors.rightSensorCheck()) {
         Serial1.println("Right Sensor:");
         Serial1.println(proxSensors.obstacleRight());
     }
