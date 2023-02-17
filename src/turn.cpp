@@ -47,7 +47,7 @@ void Turn::calibrate() {
 }
 
 void Turn::backward() {
-  motors.setSpeeds(-100,-100) ;
+  motors.setSpeeds(-motorspeed,-motorspeed) ;
   delay(1000);
   stop();
 }
