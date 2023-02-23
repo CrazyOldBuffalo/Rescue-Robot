@@ -8,7 +8,9 @@ private:
     bool breaker = false;
     char packet;
     LineSensor lineSensor;
+    bool blocker = false;
 public:
     void manualMode(Turn drive, FrontSensing proxSensors);
-    void sensorScan(FrontSensing proxSensors);
+    void sensorScan(Turn drive, FrontSensing proxSensors);
+    void linescan();
 };
