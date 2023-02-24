@@ -97,10 +97,14 @@ void manual::linescan()
     Serial1.println(lineSensor.rightValue2());
 }
 
-void manual::automaticMode(Turn drive, FrontSensing proxSensors)
+void manual::automaticMode(Turn drive, FrontSensing proxSensors, char packet)
 {
     while (!autoMode)
     {
+        if(packet = 'h')
+        {
+            autoMode = true;
+        }
     }
 }
 
