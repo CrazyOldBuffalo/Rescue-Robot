@@ -19,8 +19,9 @@ void LineSensor::lineSensorRead()
     lineSensor.readCalibrated(lineSensorValues);
     left1 = lineSensorValues[0];
     left2 = lineSensorValues[1];
-    right1 = lineSensorValues[4];
-    right2 = lineSensorValues[5];
+    right1 = lineSensorValues[3];
+    right2 = lineSensorValues[4];
+    
 }
 
 bool LineSensor::leftLineSensing()

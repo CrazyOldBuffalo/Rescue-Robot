@@ -31,26 +31,30 @@ void manual::manualMode(Turn move, FrontSensing proxSensors)
                 move.turnleft(15);
                 delay(50);
                 sensorScan(move, proxSensors);
-                // linescan();
+                linescan();
                 break;
             case 'd':
                 move.turnright(15);
                 delay(50);
                 sensorScan(move, proxSensors);
-                // linescan();
+                linescan();
                 break;
             case 's':
                 move.backward();
                 delay(50);
                 move.stop();
                 sensorScan(move, proxSensors);
-                // linescan();
+                linescan();
                 break;
             case 'x':
                 move.stop();
                 delay(1000);
                 Serial1.println("Exiting");
                 breaker = true;
+                break;
+            case 'g':
+                Serial1.println("Switching to Auto Mode");
+                automaticMode(move, proxSensors, packet);
                 break;
             default:
                 break;
@@ -101,10 +105,14 @@ void manual::automaticMode(Turn drive, FrontSensing proxSensors, char packet)
 {
     while (!autoMode)
     {
-        if(packet = 'h')
+        if ((packet = 'h'))
         {
             autoMode = true;
         }
+        do
+        {
+            drive.forward();
+        } while (!lineSensor.leftLineSensing() || !lineSensor.rightLineSensing());
     }
 }
 
