@@ -110,6 +110,73 @@ void manual::automaticMode(Turn drive, FrontSensing proxSensors)
         drive.autoForward();
         drive.stop();
         search(drive, proxSensors);
+        proxSensors.frontSensorCheck();
+        lineSensor.lineSensorRead();
+        if(!proxSensors.frontSensorCheck())
+        {
+            drive.stop();
+            autoMode = false;
+        }
+        if(lineSensor.leftLineSensing())
+        {
+            drive.stop();
+            detectedLeftLine(drive, proxSensors);
+        }
+        if(lineSensor.rightLineSensing())
+        {
+            drive.stop();
+            detectedRightLine(drive, proxSensors);
+        }
+        if(lineSensor.frontLineSensing())
+        {
+            drive.stop();
+            detectedFrontLine(drive, proxSensors);
+        }
+        if(lineSensor.leftLineSensing() && lineSensor.rightLineSensing())
+        {
+            drive.stop();
+        }
+        if(Serial1.available() > 0)
+        {
+            char x = (char)Serial1.read();
+
+            switch (x)
+            {
+            case 'h':
+                autoMode = false;
+                drive.stop();
+                break;
+            }
+        }
+    }
+}
+
+void manual::detectedLeftLine(Turn drive, FrontSensing proxSensors)
+{
+    while (lineSensor.leftLineSensing())
+    {
+        drive.turnright(5);
+        lineSensor.lineSensorRead();
+        if (!proxSensors.frontSensorCheck())
+        {
+            proxSensors.obstacleFront();
+            drive.stop();
+            break;
+        }
+    }
+}
+
+void manual::detectedRightLine(Turn drive, FrontSensing proxSensors)
+{
+    while (lineSensor.rightLineSensing())
+    {
+        drive.turnleft(5);
+        if (!proxSensors.frontSensorCheck())
+        {
+            proxSensors.obstacleFront();
+            drive.stop();
+            break;
+        }
     }
 }
 
