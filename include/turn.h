@@ -20,4 +20,5 @@ public:
     void forward();
     void backward();
     void calibrate();
+    void autoForward();
 };

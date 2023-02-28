@@ -32,9 +32,13 @@ void Turn::forward() {
     delay(500);
     stop();
 }
-
 void Turn::stop() {
     motors.setSpeeds(0,0);
+    delay(50);
+}
+
+void Turn::autoForward() {
+    motors.setSpeeds(100,100);
     delay(50);
 }
 

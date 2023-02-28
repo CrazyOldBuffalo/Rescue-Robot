@@ -17,5 +17,6 @@ public:
     unsigned int rightValue1();
     unsigned int rightValue2();
     bool leftLineSensing();
-    bool rightLineSensing();  
+    bool rightLineSensing();
+    bool frontLineSensing();
 };

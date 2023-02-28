@@ -14,7 +14,9 @@ public:
     void manualMode(Turn drive, FrontSensing proxSensors);
     void sensorScan(Turn drive, FrontSensing proxSensors);
     void linescan();
-    void automaticMode(Turn drive, FrontSensing proxSensors, char packet);
+    void automaticMode(Turn drive, FrontSensing proxSensors);
     void detectedLeftLine(Turn drive, FrontSensing proxSensors);
     void detectedRightLine(Turn drive, FrontSensing proxSensors);
+    void detectedFrontLine(Turn drive, FrontSensing proxSensors);
+    void search(Turn drive, FrontSensing proxSensors);
 };

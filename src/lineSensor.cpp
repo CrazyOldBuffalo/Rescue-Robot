@@ -26,8 +26,8 @@ void LineSensor::lineSensorRead()
 
 bool LineSensor::leftLineSensing()
 {
-    lineSensorRead();
-    if (left1 > 5 && left2 > 5)
+    lineSensor.readCalibrated(lineSensorValues);
+    if (lineSensorValues[0] > 1 || lineSensorValues[1] > 1)
     {
         return true;
     }
@@ -37,7 +37,17 @@ bool LineSensor::leftLineSensing()
 bool LineSensor::rightLineSensing()
 {
     lineSensorRead();
-    if(right1 > 5 && right2 > 5)
+    if(lineSensorValues[3] > 1 || lineSensorValues[4] > 1)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool LineSensor::frontLineSensing()
+{
+    lineSensorRead();
+    if (lineSensorValues[2] > 5 || lineSensorValues[3] > 5)
     {
         return true;
     }
