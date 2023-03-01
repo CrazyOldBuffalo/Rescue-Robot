@@ -6,9 +6,11 @@
 #include "manual.h"
 #include "turn.h"
 #include "FrontSensing.h"
+//#include "auto.h"
 
 Turn move;
 Zumo32U4ButtonA buttonA;
+Zumo32U4ButtonB buttonB;
 manual man;
 FrontSensing proxSensors = FrontSensing();
 
