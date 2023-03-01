@@ -39,7 +39,6 @@ void Turn::stop() {
 
 void Turn::autoForward() {
     motors.setSpeeds(100,100);
-    delay(50);
 }
 
 void Turn::calibrate() {
@@ -51,7 +50,12 @@ void Turn::calibrate() {
 }
 
 void Turn::backward() {
-  motors.setSpeeds(-motorspeed,-motorspeed) ;
+  motors.setSpeeds(-motorspeed,-motorspeed);
   delay(500);
   stop();
+}
+
+void Turn::autoBackward() {
+    motors.setSpeeds(-motorspeed, -motorspeed);
+    delay(50);
 }

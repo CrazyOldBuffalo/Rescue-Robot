@@ -47,7 +47,7 @@ bool LineSensor::rightLineSensing()
 bool LineSensor::frontLineSensing()
 {
     lineSensorRead();
-    if (lineSensorValues[2] > 5 || lineSensorValues[3] > 5)
+    if (lineSensorValues[2] > 0 || lineSensorValues[3] > 0)
     {
         return true;
     }
