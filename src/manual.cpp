@@ -123,7 +123,11 @@ void manual::automaticMode(Turn drive, FrontSensing proxSensors)
         {
             RoomRight(drive, proxSensors);
         }
-
+        if(!linefoundLeft && !linefoundRight && !lineSensor.frontLineSensing())
+        {
+            UhOh(drive, proxSensors);
+            break;
+        }
         // proxSensors.frontSensorCheck();
         // lineSensor.lineSensorRead();
         // if(!proxSensors.frontSensorCheck())
@@ -263,6 +267,12 @@ void manual::search(Turn drive, FrontSensing proxSensor)
             break;
         }
         delay(50);
+        if(!proxSensor.frontSensorCheck())
+        {
+            Serial1.println(proxSensor.obstacleFront());
+            drive.stop();
+            break;
+        }
     }
     drive.stop();
     drive.autoBackward();
@@ -283,6 +293,13 @@ void manual::search(Turn drive, FrontSensing proxSensor)
             break;
         }
         delay(50);
+        proxSensor.frontSensorCheck();
+        if(!proxSensor.frontSensorCheck())
+        {
+            Serial1.println(proxSensor.obstacleFront());
+            drive.stop();
+            break;
+        }
     }
     drive.stop();
     drive.autoBackward();
@@ -317,4 +334,11 @@ void manual::RoomRight(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
     Serial1.write("Right Room Here");
+}
+
+void manual::UhOh(Turn drive, FrontSensing proxSensors)
+{
+    Serial1.write("An Error Has Occurred with the robot, Aborting");
+    drive.stop();
+    autoMode = false;
 }
