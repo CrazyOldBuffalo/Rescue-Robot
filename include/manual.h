@@ -2,6 +2,11 @@
 #include "FrontSensing.h"
 #include "lineSensor.h"
 
+// Headerfile for the manual mode
+// Creates a bunch of variables for the breaker for the loop, the packet from serial
+// the linesensor, a blocker for the proximity sensor, and a variable for the automode loop
+// finally for the linefound variables used in autmode
+// Creates a bunch of functions covered in the cpp file
 
 class manual {
 private:

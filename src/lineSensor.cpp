@@ -1,11 +1,20 @@
+// LineSensor class for loading, calibrating and reading the linesensor
+// includes the header file
+
 #include "lineSensor.h"
 
+
+// initialises the linesensor
+// calibrates it for use
 void LineSensor::lineSensorSetup()
 {
     lineSensor.initFiveSensors();
     lineSensorCalibration();
 }
 
+// Outputs to the user that the linesensors are being calibrated
+// waits for the sensor to be still
+// outputs it's complete to the user
 void LineSensor::lineSensorCalibration()
 {
     Serial1.println("Calibrating Line Sensors");
@@ -14,16 +23,14 @@ void LineSensor::lineSensorCalibration()
     Serial1.println("Calibration Complete");
 }
 
+// reads the values from the line sensors and sets it to the lineSensorValues attribute
 void LineSensor::lineSensorRead()
 {
     lineSensor.readCalibrated(lineSensorValues);
-    left1 = lineSensorValues[0];
-    left2 = lineSensorValues[1];
-    right1 = lineSensorValues[3];
-    right2 = lineSensorValues[4];
-    
 }
 
+// reads the linesensor on the left and checks if they are greater than 1
+// returns true if so
 bool LineSensor::leftLineSensing()
 {
     lineSensor.readCalibrated(lineSensorValues);
@@ -34,6 +41,8 @@ bool LineSensor::leftLineSensing()
     return false;
 }
 
+// reads the linesensor on the right and checks if they are greater than 1
+// returns true if so
 bool LineSensor::rightLineSensing()
 {
     lineSensorRead();
@@ -44,6 +53,8 @@ bool LineSensor::rightLineSensing()
     return false;
 }
 
+// reads the linesensor on the front and checks if they are greater than 1
+// returns true if so
 bool LineSensor::frontLineSensing()
 {
     lineSensorRead();
