@@ -1,5 +1,8 @@
 #include <Zumo32U4.h>
 
+// Headerfile for the line sensors
+// Creates a line sensor object and values for each value and the array of values
+// Creates a bunch of functions covered in the cpp file
 class LineSensor
 {
 private:

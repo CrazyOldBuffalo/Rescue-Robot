@@ -21,4 +21,5 @@ public:
     void backward();
     void calibrate();
     void autoForward();
+    void autoBackward();
 };
