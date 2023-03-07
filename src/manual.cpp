@@ -289,6 +289,14 @@ void manual::search(Turn drive, FrontSensing proxSensor)
             drive.stop();
             break;
         }
+        if(lineSensor.leftLineSensing())
+        {
+          detectedLeftLine(drive, proxSensor);
+        }
+        if(lineSensor.rightLineSensing())
+        {
+          detectedRightLine(drive, proxSensor);
+        }
         if(!proxSensor.frontSensorCheck())
         {
           Serial1.println(proxSensor.obstacleFront());
@@ -324,7 +332,7 @@ void manual::search(Turn drive, FrontSensing proxSensor)
     while (count != 0)
     {
         drive.autoBackward();
-        delay(50);
+        delay(100);
         count--;
     }
     drive.turnright(180);
@@ -356,7 +364,7 @@ void manual::search(Turn drive, FrontSensing proxSensor)
     while(count != 0)
     {
         drive.autoBackward();
-        delay(50);
+        delay(100);
         count--;
     }
     drive.turnleft(90);
@@ -440,5 +448,6 @@ void manual::End(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
     Serial1.write("End of map");
-    drive.turnleft(180);
+    drive.turnleft(90);
+    drive.turnleft(90);
 }
