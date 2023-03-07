@@ -8,7 +8,7 @@
 // finally for the linefound variables used in autmode
 // Creates a bunch of functions covered in the cpp file
 
-class manual {
+class Manual {
 private:
     bool breaker = false;
     char packet;
@@ -16,6 +16,7 @@ private:
     bool blocker = false;
     bool autoMode = false;
     bool linefoundLeft, linefoundRight, linefoundFront;
+    int uhohcounter = 0;
 public:
     void manualMode(Turn drive, FrontSensing proxSensors);
     void sensorScan(Turn drive, FrontSensing proxSensors);
