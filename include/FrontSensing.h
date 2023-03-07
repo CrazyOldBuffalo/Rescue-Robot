@@ -2,6 +2,9 @@
 #include <Zumo32U4ProximitySensors.h>
 #include "turn.h"
 
+// Headerfile for the proximity sensors
+// Creates a proximity sensor object and values for each sensor
+// Creates a bunch of functions covered in the cpp file
 class FrontSensing
 {
 private:
