@@ -289,7 +289,7 @@ void Manual::search(Turn drive, FrontSensing proxSensor)
     linefoundRight = false;
     linefoundFront = false;
     int count = 0;
-    while (count < 4)
+    while (lineSensor.frontLineSensing() || count < 4)
     {
         count++;
         drive.autoForward();
@@ -300,14 +300,6 @@ void Manual::search(Turn drive, FrontSensing proxSensor)
             linefoundFront = true;
             drive.stop();
             break;
-        }
-        if (lineSensor.leftLineSensing())
-        {
-            detectedLeftLine(drive, proxSensor);
-        }
-        if (lineSensor.rightLineSensing())
-        {
-            detectedRightLine(drive, proxSensor);
         }
         if (!proxSensor.frontSensorCheck())
         {
@@ -381,6 +373,7 @@ void Manual::search(Turn drive, FrontSensing proxSensor)
     }
     drive.turnleft(90);
     drive.stop();
+    drive.turnright(5);
 }
 
 // drives the robot forward for 1 second whilst correcting for any lines detected left or right of it
