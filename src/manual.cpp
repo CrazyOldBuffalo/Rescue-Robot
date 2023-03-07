@@ -157,7 +157,7 @@ void manual::automaticMode(Turn drive, FrontSensing proxSensors)
         {
             TurnLeft(drive, proxSensors);
         }
-        if(!linefoundLeft && !linefoundRight && linefoundFront)
+        if((!linefoundLeft && !linefoundRight && linefoundFront) || (!linefoundLeft && linefoundRight  && !linefoundFront) || (linefoundLeft && !linefoundRight && !linefoundFront))
         {
             TJunction(drive, proxSensors);
         }
@@ -216,7 +216,7 @@ void manual::detectedRightLine(Turn drive, FrontSensing proxSensors)
     }
 }
 
-
+// Test Function - Unused
 void manual::detectedFrontLine(Turn drive, FrontSensing proxSensors)
 {
     linefoundLeft = false;
@@ -424,12 +424,15 @@ void manual::UhOh(Turn drive, FrontSensing proxSensors)
     autoMode = false;
 }
 
+// Function for when a Tjunction is detected (No left or right but front line) will turn left by default
 void manual::TJunction(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
     Serial1.write("TJunction found");
+    drive.turnleft(90);
 }
 
+// Function for when a Left turn is detected (No left line, but front and right line)
 void manual::TurnLeft(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
@@ -437,6 +440,7 @@ void manual::TurnLeft(Turn drive, FrontSensing proxSensors)
     drive.turnleft(90);
 }
 
+// Function for when a Right turn is detected (No right line, but front and left line)
 void manual::TurnRight(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
@@ -444,6 +448,7 @@ void manual::TurnRight(Turn drive, FrontSensing proxSensors)
     drive.turnright(90);
 }
 
+// Function for when an end is detected (Left, right and front lines)
 void manual::End(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
