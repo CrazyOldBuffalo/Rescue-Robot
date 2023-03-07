@@ -149,11 +149,6 @@ void manual::automaticMode(Turn drive, FrontSensing proxSensors)
         {
             RoomRight(drive, proxSensors);
         }
-        if(!linefoundLeft && !linefoundRight && !lineSensor.frontLineSensing())
-        {
-            UhOh(drive, proxSensors);
-            break;
-        }
         if(linefoundLeft && !linefoundRight && linefoundFront)
         {
             TurnRight(drive, proxSensors);
@@ -169,6 +164,11 @@ void manual::automaticMode(Turn drive, FrontSensing proxSensors)
         if(linefoundLeft && linefoundRight && linefoundFront)
         {
             End(drive, proxSensors);
+        }
+        if(!linefoundLeft && !linefoundRight && !lineSensor.frontLineSensing())
+        {
+            UhOh(drive, proxSensors);
+            break;
         }
         if(Serial1.available() > 0)
         {
@@ -272,11 +272,12 @@ void manual::detectedFrontLine(Turn drive, FrontSensing proxSensors)
 // then returns to the original position
 void manual::search(Turn drive, FrontSensing proxSensor)
 {
+    Serial1.println("Seaching");
     linefoundLeft = false;
     linefoundRight = false;
     linefoundFront = false;
     int count = 0;
-    while (count < 2)
+    while (count < 4)
     {
         count++;
         drive.autoForward();
@@ -288,13 +289,14 @@ void manual::search(Turn drive, FrontSensing proxSensor)
             drive.stop();
             break;
         }
+        if(!proxSensor.frontSensorCheck())
+        {
+          Serial1.println(proxSensor.obstacleFront());
+          drive.stop();
+          break;
+        }
     }
-    while (count != 0)
-    {
-        count--;
-        drive.autoBackward();
-        delay(50);
-    }
+    count = 0;
     drive.turnleft(90);
     delay(50);
     while(count < 5)
@@ -363,11 +365,19 @@ void manual::search(Turn drive, FrontSensing proxSensor)
 
 // drives the robot forward for 1 second whilst correcting for any lines detected left or right of it
 void manual::movingForward(Turn drive, FrontSensing proxSensors)
-{
+{  
+  int timer = 0;
+  while(lineSensor.frontLineSensing() || timer < 5)
+  {
+    timer++;
     drive.autoForward();
-    delay(1000);
-    proxSensors.frontSensorCheck();
+    delay(50);
     lineSensor.lineSensorRead();
+    if(lineSensor.frontLineSensing())
+    {
+        drive.stop();
+        break;
+    }
     if(lineSensor.leftLineSensing())
     {
         detectedLeftLine(drive, proxSensors);
@@ -376,11 +386,12 @@ void manual::movingForward(Turn drive, FrontSensing proxSensors)
     {
         detectedRightLine(drive, proxSensors);
     }
-    if(lineSensor.frontLineSensing())
+    if(!proxSensors.frontSensorCheck())
     {
-        drive.stop();
+      drive.stop();
+      break;
     }
-
+  } 
 }
 
 // function for if a room is detected to the left based on the search and if statements in automode
@@ -415,16 +426,19 @@ void manual::TurnLeft(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
     Serial1.write("Left Turn");
+    drive.turnleft(90);
 }
 
 void manual::TurnRight(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
     Serial1.write("Right Turn");
+    drive.turnright(90);
 }
 
 void manual::End(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
     Serial1.write("End of map");
+    drive.turnleft(180);
 }
