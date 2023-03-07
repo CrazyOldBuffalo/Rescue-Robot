@@ -1,6 +1,11 @@
 #include <Wire.h>
 #include <Zumo32U4.h>
 
+
+// Headerfile for the gyro sensor (IMU)
+// Creates a gyro sensor object and values for each anglepreset
+// Creates a bunch of functions covered in the cpp file
+// Creates several variables used by the functions and by some classes
 class GyroSensor
 {
 private:
