@@ -30,5 +30,7 @@ public:
     void RoomRight(Turn drive, FrontSensing proxSensors);
     void TurnLeft(Turn drive, FrontSensing proxSensors);
     void TurnRight(Turn drive, FrontSensing proxSensors);
+    void TJunction(Turn drive, FrontSensing proxSensors);
+    void End(Turn drive, FrontSensing proxSensors);
     void UhOh(Turn drive, FrontSensing proxSensors);
 };

@@ -138,14 +138,14 @@ void manual::automaticMode(Turn drive, FrontSensing proxSensors)
         linefoundFront = false;
         movingForward(drive,proxSensors);
         search(drive, proxSensors);
-        if(linefoundLeft && linefoundRight && !lineSensor.frontLineSensing()) {
+        if(linefoundLeft && linefoundRight && !linefoundFront) {
             movingForward(drive, proxSensors);
         }
-        if(!linefoundLeft && linefoundRight && !lineSensor.frontLineSensing())
+        if(!linefoundLeft && linefoundRight && !linefoundFront)
         {
             RoomLeft(drive, proxSensors);
         }
-        if(linefoundLeft && !linefoundRight && !lineSensor.frontLineSensing())
+        if(linefoundLeft && !linefoundRight && !linefoundFront)
         {
             RoomRight(drive, proxSensors);
         }
@@ -154,32 +154,22 @@ void manual::automaticMode(Turn drive, FrontSensing proxSensors)
             UhOh(drive, proxSensors);
             break;
         }
-        // proxSensors.frontSensorCheck();
-        // lineSensor.lineSensorRead();
-        // if(!proxSensors.frontSensorCheck())
-        // {
-        //     drive.stop();
-        //     autoMode = false;
-        // }
-        // if(lineSensor.leftLineSensing())
-        // {
-        //     drive.stop();
-        //     detectedLeftLine(drive, proxSensors);
-        // }
-        // if(lineSensor.rightLineSensing())
-        // {
-        //     drive.stop();
-        //     detectedRightLine(drive, proxSensors);
-        // }
-        // if(lineSensor.frontLineSensing())
-        // {
-        //     drive.stop();
-        //     detectedFrontLine(drive, proxSensors);
-        // }
-        // if(lineSensor.leftLineSensing() && lineSensor.rightLineSensing())
-        // {
-        //     drive.stop();
-        // }
+        if(linefoundLeft && !linefoundRight && linefoundFront)
+        {
+            TurnRight(drive, proxSensors);
+        }
+        if(!linefoundLeft && linefoundRight && linefoundFront)
+        {
+            TurnLeft(drive, proxSensors);
+        }
+        if(!linefoundLeft && !linefoundRight && linefoundFront)
+        {
+            TJunction(drive, proxSensors);
+        }
+        if(linefoundLeft && linefoundRight && linefoundFront)
+        {
+            End(drive, proxSensors);
+        }
         if(Serial1.available() > 0)
         {
             char x = (char)Serial1.read();
@@ -286,6 +276,25 @@ void manual::search(Turn drive, FrontSensing proxSensor)
     linefoundRight = false;
     linefoundFront = false;
     int count = 0;
+    while (count < 2)
+    {
+        count++;
+        drive.autoForward();
+        delay(50);
+        lineSensor.lineSensorRead();
+        if(lineSensor.frontLineSensing())
+        {
+            linefoundFront = true;
+            drive.stop();
+            break;
+        }
+    }
+    while (count != 0)
+    {
+        count--;
+        drive.autoBackward();
+        delay(50);
+    }
     drive.turnleft(90);
     delay(50);
     while(count < 5)
@@ -394,4 +403,28 @@ void manual::UhOh(Turn drive, FrontSensing proxSensors)
     Serial1.write("An Error Has Occurred with the robot, Aborting");
     drive.stop();
     autoMode = false;
+}
+
+void manual::TJunction(Turn drive, FrontSensing proxSensors)
+{
+    drive.stop();
+    Serial1.write("TJunction found");
+}
+
+void manual::TurnLeft(Turn drive, FrontSensing proxSensors)
+{
+    drive.stop();
+    Serial1.write("Left Turn");
+}
+
+void manual::TurnRight(Turn drive, FrontSensing proxSensors)
+{
+    drive.stop();
+    Serial1.write("Right Turn");
+}
+
+void manual::End(Turn drive, FrontSensing proxSensors)
+{
+    drive.stop();
+    Serial1.write("End of map");
 }
