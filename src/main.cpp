@@ -17,7 +17,7 @@
 // proxSensors for the proximity sensors
 Turn move;
 Zumo32U4ButtonA buttonA;
-manual man;
+Manual man;
 FrontSensing proxSensors = FrontSensing();
 
 // Varaiable for checking if the button was pressed
