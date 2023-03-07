@@ -16,6 +16,7 @@ private:
     bool blocker = false;
     bool autoMode = false;
     bool linefoundLeft, linefoundRight, linefoundFront;
+    int uhohcounter = 0;
 public:
     void manualMode(Turn drive, FrontSensing proxSensors);
     void sensorScan(Turn drive, FrontSensing proxSensors);
