@@ -7,7 +7,6 @@
 // Calibrates the turn sensors, linesensors, proximity sensors, etc
 // waits for 1 second to ensure they're calibrated
 // enters a loop until the user presses/sends x to exit
-
 void Manual::manualMode(Turn move, FrontSensing proxSensors)
 {
     move.calibrate();
@@ -36,7 +35,7 @@ void Manual::manualMode(Turn move, FrontSensing proxSensors)
                     delay(50);
                     move.stop();
                     sensorScan(move, proxSensors);
-                    linescan();
+                    linescan(move);
                     break;
                 }
             // turns left by 15 degrees and performs the same scans
@@ -44,14 +43,14 @@ void Manual::manualMode(Turn move, FrontSensing proxSensors)
                 move.turnleft(15);
                 delay(50);
                 sensorScan(move, proxSensors);
-                linescan();
+                linescan(move);
                 break;
             // turns right by 15 degrees and performs the same scans
             case 'd':
                 move.turnright(15);
                 delay(50);
                 sensorScan(move, proxSensors);
-                linescan();
+                linescan(move);
                 break;
             // moves backward and scans
             case 's':
@@ -59,7 +58,7 @@ void Manual::manualMode(Turn move, FrontSensing proxSensors)
                 delay(50);
                 move.stop();
                 sensorScan(move, proxSensors);
-                linescan();
+                linescan(move);
                 break;
             // Exits the manual mode, for when you've finished
             case 'x':
@@ -110,15 +109,25 @@ void Manual::sensorScan(Turn drive, FrontSensing proxSensors)
 
 // reads the linesensors and prints the values
 // more for testing
-void Manual::linescan()
+void Manual::linescan(Turn drive)
 {
     lineSensor.lineSensorRead();
-    Serial1.println("Left Values:");
-    Serial1.println(lineSensor.leftValue1());
-    Serial1.println(lineSensor.leftValue2());
-    Serial1.println("Right Values");
-    Serial1.println(lineSensor.rightValue1());
-    Serial1.println(lineSensor.rightValue2());
+    if(lineSensor.leftLineSensing())
+    {
+        Serial1.println("Caution Wall Found Left");
+        drive.stop();
+    }
+    if(lineSensor.rightLineSensing())
+    {
+        Serial1.println("Caution Wall Found Right");
+        drive.stop();
+    }
+    if(lineSensor.frontLineSensing())
+    {
+        Serial1.println("Caution Wall Found Front");
+        drive.stop();
+    }
+
 }
 
 // Automatic mode of the program
