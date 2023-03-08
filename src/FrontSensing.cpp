@@ -82,21 +82,21 @@ bool FrontSensing::rightSensorCheck() {
 // So the operator knows whats going on.
 String FrontSensing::obstacleFront() {
     if(!frontSensorCheck()) {
-        return "Obstacle in front of Robot - CAUTION";
+        return "Obstacle or Person in front of Robot - CAUTION";
     }
     return "Clear";
 }
 
 String FrontSensing::obstacleLeft() {
     if (!leftSensorCheck()) {
-        return "Obstacle Left of Robot - CAUTION";
+        return "Obstacle or Person Left of Robot - CAUTION";
     }
     return "Clear";
 }
 
 String FrontSensing::obstacleRight() {
     if(!rightSensorCheck()) {
-        return "Obstacle Right of Robot - CAUTION";
+        return "Obstacle or Person Right of Robot - CAUTION";
     }
     return "Clear";
 }

@@ -112,22 +112,21 @@ void Manual::sensorScan(Turn drive, FrontSensing proxSensors)
 void Manual::linescan(Turn drive)
 {
     lineSensor.lineSensorRead();
-    if(lineSensor.leftLineSensing())
+    if (lineSensor.leftLineSensing())
     {
         Serial1.println("Caution Wall Found Left");
         drive.stop();
     }
-    if(lineSensor.rightLineSensing())
+    if (lineSensor.rightLineSensing())
     {
         Serial1.println("Caution Wall Found Right");
         drive.stop();
     }
-    if(lineSensor.frontLineSensing())
+    if (lineSensor.frontLineSensing())
     {
         Serial1.println("Caution Wall Found Front");
         drive.stop();
     }
-
 }
 
 // Automatic mode of the program
@@ -141,6 +140,18 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
     bool autoMode = true;
     do
     {
+        if (Serial1.available() > 0)
+        {
+            char x = (char)Serial1.read();
+
+            switch (x)
+            {
+            case 'h':
+                autoMode = false;
+                drive.stop();
+                break;
+            }
+        }
         linefoundLeft = false;
         linefoundRight = false;
         linefoundFront = false;
@@ -149,32 +160,121 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
         // Make decision on next move based on what lines were detected around the robot
         if (linefoundLeft && linefoundRight && !linefoundFront)
         {
-            movingForward(drive, proxSensors);
+            delay(1000);
+            if (Serial1.available() > 0)
+            {
+                char x = (char)Serial1.read();
+                if (x == 'h')
+                {
+                    autoMode = false;
+                    drive.stop();
+                    Serial1.println("Exiting Auto Mode");
+                }
+            }
+            else
+            {
+                movingForward(drive, proxSensors);
+            }
         }
         if (!linefoundLeft && linefoundRight && !linefoundFront)
         {
             uhohcounter = 0;
-            RoomLeft(drive, proxSensors);
+            delay(1000);
+            if (Serial1.available() > 0)
+            {
+                char x = (char)Serial1.read();
+                if (x == 'h')
+                {
+                    autoMode = false;
+                    drive.stop();
+                    Serial1.println("Room Found Left");
+                    Serial1.println("Exiting Auto Mode");
+                }
+            }
+            else
+            {
+                RoomLeft(drive, proxSensors);
+            }
         }
         if (linefoundLeft && !linefoundRight && !linefoundFront)
         {
             uhohcounter = 0;
-            RoomRight(drive, proxSensors);
+            delay(1000);
+            if (Serial1.available() > 0)
+            {
+                char x = (char)Serial1.read();
+                if (x == 'h')
+                {
+                    autoMode = false;
+                    drive.stop();
+                    Serial1.println("Room Found Right");
+                    Serial1.println("Exiting Auto Mode");
+                }
+            }
+            else
+            {
+                RoomRight(drive, proxSensors);
+            }
         }
         if (linefoundLeft && !linefoundRight && linefoundFront)
         {
             uhohcounter = 0;
-            TurnRight(drive, proxSensors);
+            delay(1000);
+            if (Serial1.available() > 0)
+            {
+                char x = (char)Serial1.read();
+                if (x == 'h')
+                {
+                    autoMode = false;
+                    drive.stop();
+                    Serial1.println("Turn Right");
+                    Serial1.println("Exiting Auto Mode");
+                }
+            }
+            else
+            {
+                TurnRight(drive, proxSensors);
+            }
         }
         if (!linefoundLeft && linefoundRight && linefoundFront)
         {
             uhohcounter = 0;
-            TurnLeft(drive, proxSensors);
+            delay(1000);
+            if (Serial1.available() > 0)
+            {
+                char x = (char)Serial1.read();
+                if (x == 'h')
+                {
+                    autoMode = false;
+                    drive.stop();
+                    Serial1.println("Room Found Right");
+                    Serial1.println("Exiting Auto Mode");
+                }
+            }
+            else
+            {
+                TurnLeft(drive, proxSensors);
+            }
         }
         if ((!linefoundLeft && !linefoundRight && linefoundFront))
         {
             uhohcounter = 0;
-            TJunction(drive, proxSensors);
+            delay(1000);
+            if (Serial1.available() > 0)
+            {
+                char x = (char)Serial1.read();
+                if (x == 'h')
+                {
+                    autoMode = false;
+                    drive.stop();
+                    Serial1.println("Room Found Left");
+                    Serial1.println("Exiting Auto Mode");
+                }
+            }
+            else
+            {
+                TJunction(drive, proxSensors);
+            }
         }
         if (linefoundLeft && linefoundRight && linefoundFront)
         {
@@ -187,18 +287,6 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
             if (uhohcounter >= 2)
             {
                 UhOh(drive, proxSensors);
-                break;
-            }
-        }
-        if (Serial1.available() > 0)
-        {
-            char x = (char)Serial1.read();
-
-            switch (x)
-            {
-            case 'h':
-                autoMode = false;
-                drive.stop();
                 break;
             }
         }
@@ -310,6 +398,14 @@ void Manual::search(Turn drive, FrontSensing proxSensor)
             drive.stop();
             break;
         }
+        if (lineSensor.leftLineSensing())
+        {
+            detectedLeftLine(drive, proxSensor);
+        }
+        if (lineSensor.rightLineSensing())
+        {
+            detectedRightLine(drive, proxSensor);
+        }
         if (!proxSensor.frontSensorCheck())
         {
             Serial1.println(proxSensor.obstacleFront());
@@ -333,7 +429,6 @@ void Manual::search(Turn drive, FrontSensing proxSensor)
             drive.stop();
             break;
         }
-        delay(50);
         if (!proxSensor.frontSensorCheck())
         {
             Serial1.println(proxSensor.obstacleFront());
@@ -345,7 +440,7 @@ void Manual::search(Turn drive, FrontSensing proxSensor)
     while (count != 0)
     {
         drive.autoBackward();
-        delay(100);
+        delay(50);
         count--;
     }
     drive.turnright(180);
@@ -382,14 +477,13 @@ void Manual::search(Turn drive, FrontSensing proxSensor)
     }
     drive.turnleft(90);
     drive.stop();
-    drive.turnright(5);
 }
 
 // drives the robot forward for 1 second whilst correcting for any lines detected left or right of it
 void Manual::movingForward(Turn drive, FrontSensing proxSensors)
 {
     int timer = 0;
-    while (lineSensor.frontLineSensing() || timer < 5)
+    while (timer < 5)
     {
         timer++;
         drive.autoForward();
@@ -400,13 +494,16 @@ void Manual::movingForward(Turn drive, FrontSensing proxSensors)
             drive.stop();
             break;
         }
-        if (lineSensor.leftLineSensing())
+        if (!lineSensor.frontLineSensing())
         {
-            detectedLeftLine(drive, proxSensors);
-        }
-        if (lineSensor.rightLineSensing())
-        {
-            detectedRightLine(drive, proxSensors);
+            if (lineSensor.leftLineSensing())
+            {
+                detectedLeftLine(drive, proxSensors);
+            }
+            if (lineSensor.rightLineSensing())
+            {
+                detectedRightLine(drive, proxSensors);
+            }
         }
         if (!proxSensors.frontSensorCheck())
         {
@@ -421,6 +518,7 @@ void Manual::RoomLeft(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
     Serial1.write("Left Room HERE");
+    drive.turnright(5);
 }
 
 // function for if a room is detected to the right based on the search and if statements in automode
@@ -428,6 +526,7 @@ void Manual::RoomRight(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
     Serial1.write("Right Room Here");
+    drive.turnleft(5);
 }
 
 // function for if no lines are detected around the robot and exits the automode
