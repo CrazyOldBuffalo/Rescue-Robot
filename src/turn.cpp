@@ -36,7 +36,7 @@ void Turn::turnright(int degree) {
 // gets the robot to move forward for 0.5 seconds and then stop
 void Turn::forward() {
     motors.setSpeeds(motorspeed, motorspeed);
-    delay(500);
+    delay(250);
     stop();
 }
 
@@ -69,5 +69,5 @@ void Turn::backward() {
 
 // Reverses the robot in auto mode (also more consistency)
 void Turn::autoBackward() {
-    motors.setSpeeds(-motorspeed, -motorspeed);
+    motors.setSpeeds(-100, -100);
 }

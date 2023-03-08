@@ -18,9 +18,10 @@ private:
     bool linefoundLeft, linefoundRight, linefoundFront;
     int uhohcounter = 0;
 public:
+    void modeSwitch(Turn drive, FrontSensing proxsensors);
     void manualMode(Turn drive, FrontSensing proxSensors);
     void sensorScan(Turn drive, FrontSensing proxSensors);
-    void linescan();
+    void linescan(Turn drive);
     void automaticMode(Turn drive, FrontSensing proxSensors);
     void detectedLeftLine(Turn drive, FrontSensing proxSensors);
     void detectedRightLine(Turn drive, FrontSensing proxSensors);
