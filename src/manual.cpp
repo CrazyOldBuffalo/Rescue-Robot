@@ -149,6 +149,7 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
             case 'h':
                 autoMode = false;
                 drive.stop();
+                Serial1.println("Exiting Auto Mode");
                 break;
             }
         }
@@ -160,7 +161,7 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
         // Make decision on next move based on what lines were detected around the robot
         if (linefoundLeft && linefoundRight && !linefoundFront)
         {
-            delay(1000);
+            delay(3000);
             if (Serial1.available() > 0)
             {
                 char x = (char)Serial1.read();
@@ -179,7 +180,8 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
         if (!linefoundLeft && linefoundRight && !linefoundFront)
         {
             uhohcounter = 0;
-            delay(1000);
+            delay(3000);
+            Serial1.println("Room Found Left");
             if (Serial1.available() > 0)
             {
                 char x = (char)Serial1.read();
@@ -187,7 +189,6 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
                 {
                     autoMode = false;
                     drive.stop();
-                    Serial1.println("Room Found Left");
                     Serial1.println("Exiting Auto Mode");
                 }
             }
@@ -199,7 +200,8 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
         if (linefoundLeft && !linefoundRight && !linefoundFront)
         {
             uhohcounter = 0;
-            delay(1000);
+            Serial1.println("Room Found Right");
+            delay(3000);
             if (Serial1.available() > 0)
             {
                 char x = (char)Serial1.read();
@@ -207,7 +209,6 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
                 {
                     autoMode = false;
                     drive.stop();
-                    Serial1.println("Room Found Right");
                     Serial1.println("Exiting Auto Mode");
                 }
             }
@@ -219,7 +220,8 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
         if (linefoundLeft && !linefoundRight && linefoundFront)
         {
             uhohcounter = 0;
-            delay(1000);
+            Serial1.println("Turn Right");
+            delay(3000);
             if (Serial1.available() > 0)
             {
                 char x = (char)Serial1.read();
@@ -227,7 +229,6 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
                 {
                     autoMode = false;
                     drive.stop();
-                    Serial1.println("Turn Right");
                     Serial1.println("Exiting Auto Mode");
                 }
             }
@@ -239,7 +240,8 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
         if (!linefoundLeft && linefoundRight && linefoundFront)
         {
             uhohcounter = 0;
-            delay(1000);
+            Serial1.println("Room Found Right");
+            delay(3000);
             if (Serial1.available() > 0)
             {
                 char x = (char)Serial1.read();
@@ -247,7 +249,6 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
                 {
                     autoMode = false;
                     drive.stop();
-                    Serial1.println("Room Found Right");
                     Serial1.println("Exiting Auto Mode");
                 }
             }
@@ -259,7 +260,8 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
         if ((!linefoundLeft && !linefoundRight && linefoundFront))
         {
             uhohcounter = 0;
-            delay(1000);
+            Serial1.println("Room Found Left");
+            delay(3000);
             if (Serial1.available() > 0)
             {
                 char x = (char)Serial1.read();
@@ -267,7 +269,6 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
                 {
                     autoMode = false;
                     drive.stop();
-                    Serial1.println("Room Found Left");
                     Serial1.println("Exiting Auto Mode");
                 }
             }
@@ -279,7 +280,28 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
         if (linefoundLeft && linefoundRight && linefoundFront)
         {
             uhohcounter = 0;
-            End(drive, proxSensors);
+            Serial1.println("Maze End Found");
+            delay(3000);
+            endCounter++;
+            if (endCounter >= 2)
+            {
+                Serial1.println("End of Maze, Exiting");
+                drive.stop();
+                autoMode = false;
+            }
+            if (Serial1.available() > 0)
+            {
+                char x = (char)Serial1.read();
+                if (x == 'h')
+                {
+                    autoMode = false;
+                    drive.stop();
+                    Serial1.println("Exiting Auto Mode");
+                }
+            }
+            else {
+                End(drive, proxSensors);
+            }
         }
         if (!linefoundLeft && !linefoundRight && !linefoundFront)
         {
@@ -517,7 +539,6 @@ void Manual::movingForward(Turn drive, FrontSensing proxSensors)
 void Manual::RoomLeft(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
-    Serial1.write("Left Room HERE");
     drive.turnright(5);
 }
 
@@ -525,7 +546,6 @@ void Manual::RoomLeft(Turn drive, FrontSensing proxSensors)
 void Manual::RoomRight(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
-    Serial1.write("Right Room Here");
     drive.turnleft(5);
 }
 
@@ -541,7 +561,6 @@ void Manual::UhOh(Turn drive, FrontSensing proxSensors)
 void Manual::TJunction(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
-    Serial1.write("TJunction found");
     drive.turnleft(90);
 }
 
@@ -549,7 +568,6 @@ void Manual::TJunction(Turn drive, FrontSensing proxSensors)
 void Manual::TurnLeft(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
-    Serial1.write("Left Turn");
     drive.turnleft(90);
 }
 
@@ -557,7 +575,6 @@ void Manual::TurnLeft(Turn drive, FrontSensing proxSensors)
 void Manual::TurnRight(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
-    Serial1.write("Right Turn");
     drive.turnright(90);
 }
 
@@ -565,7 +582,6 @@ void Manual::TurnRight(Turn drive, FrontSensing proxSensors)
 void Manual::End(Turn drive, FrontSensing proxSensors)
 {
     drive.stop();
-    Serial1.write("End of map");
     drive.turnleft(90);
     drive.turnleft(90);
 }
