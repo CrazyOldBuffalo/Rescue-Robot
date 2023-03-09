@@ -299,7 +299,8 @@ void Manual::automaticMode(Turn drive, FrontSensing proxSensors)
                     Serial1.println("Exiting Auto Mode");
                 }
             }
-            else {
+            else
+            {
                 End(drive, proxSensors);
             }
         }
